@@ -259,7 +259,7 @@ class ACursorSuite extends CirceSuite {
     val result = for {
       c <- cursor.downField("a").success
       a <- c.downN(3).success
-      l <- a.leftAt(_.as[Int].right.exists(_ == 1)).success
+      l <- a.leftAt(_.as[Int].exists(_ == 1)).success
     } yield l
 
     assert(result.flatMap(_.focus) === Some(1.asJson))
@@ -268,7 +268,7 @@ class ACursorSuite extends CirceSuite {
   it should "fail to select a value that doesn't exist" in {
     val result = for {
       c <- cursor.downField("b").success
-      l <- c.leftAt(_.as[Int].right.exists(_ == 1)).success
+      l <- c.leftAt(_.as[Int].exists(_ == 1)).success
     } yield l
 
     assert(result.flatMap(_.focus) === None)
@@ -278,7 +278,7 @@ class ACursorSuite extends CirceSuite {
     val result = for {
       c <- cursor.downField("a").success
       a <- c.downN(3).success
-      r <- a.rightAt(_.as[Int].right.exists(_ == 5)).success
+      r <- a.rightAt(_.as[Int].exists(_ == 5)).success
     } yield r
 
     assert(result.flatMap(_.focus) === Some(5.asJson))
@@ -287,7 +287,7 @@ class ACursorSuite extends CirceSuite {
   it should "fail to select a value that doesn't exist" in {
     val result = for {
       c <- cursor.downField("b").success
-      r <- c.rightAt(_.as[Int].right.exists(_ == 5)).success
+      r <- c.rightAt(_.as[Int].exists(_ == 5)).success
     } yield r
 
     assert(result.flatMap(_.focus) === None)
